@@ -31,3 +31,25 @@ app.get("/posts",async(req,res)=>{
     const result = await prisma.post.findMany()
     res.json(result);
 });
+
+//actualizar un registro
+
+app.put("/post/:id", async(req,res)=>{
+    const {id} = req.params;
+    const {title,content} = req.body;
+    const post = await  prisma.post.update({
+        where: {id:Number(id)},
+        data: {title,content}
+    });
+    res.json(post);
+})
+
+app.delete("/post/:id", async(req,res)=>{
+    const {id} = req.params;
+    const post = await prisma.post.delete({
+        where:{
+            id: Number(id)
+        }
+    });
+    res.json("Eliminado");
+});
